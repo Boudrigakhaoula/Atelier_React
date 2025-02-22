@@ -49,3 +49,9 @@
 h1 {
   margin-bottom: 20px;
 }
+
+/* Ajouter ce style pour souligner la route active */
+.nav-link.active {
+  font-weight: bold;
+  text-decoration: underline;
+}

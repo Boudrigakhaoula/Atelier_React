@@ -1,12 +1,18 @@
 import React, { useState } from 'react';
 import { Card, Button } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom'; // Importer useNavigate pour la navigation
 
 const Event = ({ event, onBook, onLike }) => {
   const [liked, setLiked] = useState(event.like);
+  const navigate = useNavigate(); 
 
   const handleLike = () => {
     setLiked(!liked);
     onLike(event.name);
+  };
+
+  const handleEventClick = () => {
+    navigate(`/events/${event.name}`); 
   };
 
   // Déterminer l'image à afficher
@@ -16,12 +22,13 @@ const Event = ({ event, onBook, onLike }) => {
     <Card style={{ width: '18rem', margin: '10px' }}>
       <Card.Img variant="top" src={imageSrc} />
       <Card.Body>
-        <Card.Title>{event.name}</Card.Title>
-        <Card.Text>{event.description}</Card.Text>
+        <Card.Title onClick={handleEventClick} style={{ cursor: 'pointer' }}>
+          {event.name}
+        </Card.Title>
         <Card.Text>Price: {event.price}</Card.Text>
-        <Card.Text>Number of tickets : {event.nbTickets}</Card.Text>
+        <Card.Text>Number of tickets: {event.nbTickets}</Card.Text>
         <Card.Text>Number of participants: {event.nbParticipants}</Card.Text>
-       
+        <Card.Text>Like: {liked? 'Yes' : 'No'}</Card.Text>
         <Button
           variant="primary"
           onClick={() => onBook(event.name)}

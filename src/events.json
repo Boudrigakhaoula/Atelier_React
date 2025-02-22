@@ -1,0 +1,32 @@
+[
+    {
+      "id": 1,
+      "name": "Festival international de Carthage",
+      "description": "Un festival de musique et de culture.",
+      "img": "public/Carthage.jpg",
+      "price": 30,
+      "nbTickets": 10,
+      "nbParticipants": 10,
+      "like": false
+    },
+    {
+      "id": 2,
+      "name": "Festival de la Médina de Tunis",
+      "description": "Un festival d'art et de musique.",
+      "img": "public/medina.jpg",
+      "price": 15,
+      "nbTickets": 4,
+      "nbParticipants": 30,
+      "like": false
+    },
+    {
+      "id": 3,
+      "name": "Journée cinématographique de carthage",
+      "description": "Un festival d'art et de cinema.",
+      "img": "public/cinema.jpg",
+      "price": 7,
+      "nbTickets": 20,
+      "nbParticipants": 35,
+      "like": false
+    }
+  ]

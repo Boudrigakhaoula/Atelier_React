@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { Card, Button } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom'; // Importer useNavigate pour la navigation
+import { useNavigate } from 'react-router-dom'; 
+import { getallEvents, addEvent, editEvent, deleteEvent} from '../services/api';
 
-const Event = ({ event, onBook, onLike }) => {
+const Event = ({ event, onBook, onLike, onDelete }) => {
   const [liked, setLiked] = useState(event.like);
+  const [events, setEvents] = useState([]);
   const navigate = useNavigate(); 
 
   const handleLike = () => {
@@ -11,16 +13,21 @@ const Event = ({ event, onBook, onLike }) => {
     onLike(event.name);
   };
 
+  // const handleEventClick = () => {
+  //   navigate(`/events/${event.name}`); 
+  // };
   const handleEventClick = () => {
-    navigate(`/events/${event.name}`); 
-  };
+    navigate(`/events/${event.id}`); // Utiliser l'ID pour la navigation
+};
 
-  // Déterminer l'image à afficher
+  const handleDeleteEvent = () => {
+    onDelete(event.id); 
+};
   const imageSrc = event.nbTickets === 0 ? '/public/soldout.png' : event.img;
 
   return (
-    <Card style={{ width: '18rem', margin: '10px' }}>
-      <Card.Img variant="top" src={imageSrc} />
+    <Card  style={{ width: '18rem', margin: '10px' }}>
+      <Card.Img onClick={handleEventClick} variant="top" src={imageSrc} />
       <Card.Body>
         <Card.Title onClick={handleEventClick} style={{ cursor: 'pointer' }}>
           {event.name}
@@ -28,7 +35,7 @@ const Event = ({ event, onBook, onLike }) => {
         <Card.Text>Price: {event.price}</Card.Text>
         <Card.Text>Number of tickets: {event.nbTickets}</Card.Text>
         <Card.Text>Number of participants: {event.nbParticipants}</Card.Text>
-        <Card.Text>Like: {liked? 'Yes' : 'No'}</Card.Text>
+        <Card.Text>Like: {liked ? 'Yes' : 'No'}</Card.Text>
         <Button
           variant="primary"
           onClick={() => onBook(event.name)}
@@ -42,6 +49,12 @@ const Event = ({ event, onBook, onLike }) => {
           style={{ marginLeft: '10px' }}
         >
           {liked ? 'Dislike' : 'Like'}
+        </Button>
+        <Button variant="success" onClick={() => navigate(`/update-event/${event.id}`)}>
+          Update 
+        </Button>
+        <Button variant="danger" onClick={handleDeleteEvent}>
+          Delete 
         </Button>
       </Card.Body>
     </Card>

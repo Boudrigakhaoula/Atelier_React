@@ -1,14 +1,26 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import eventsData from '../events.json'; // Importer les données des événements
+import { fetchEventById } from '../services/api';
 
 const EventDetails = () => {
-  const { eventName } = useParams(); // Récupérer le nom de l'événement depuis l'URL
-  const event = eventsData.find((event) => event.name === eventName); // Trouver l'événement correspondant
+    const { id } = useParams(); // Récupérer l'ID de l'événement depuis l'URL
+    const [event, setEvent] = useState(null);
 
-  if (!event) {
-    return <div>Event not found!</div>;
-  }
+    useEffect(() => {
+        const fetchEvent = async () => {
+            try {
+                const foundEvent = await fetchEventById(id); // Utiliser fetchEventById pour récupérer l'événement
+                setEvent(foundEvent);
+            } catch (error) {
+                console.error("Error fetching event:", error);
+            }
+        };
+        fetchEvent();
+    }, [id]);
+
+    if (!event) {
+        return <div>Event not found!</div>;
+    }
 
   return (
     <div style={{ padding: '20px', display: 'flex', alignItems: 'center', gap: '20px' }}>

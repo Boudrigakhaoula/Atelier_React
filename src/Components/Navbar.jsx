@@ -17,7 +17,10 @@ const NavigationBar = () => {
             <Nav.Link as={NavLink} to="/event">
                Events
             </Nav.Link>
-          
+            <Nav.Link as={NavLink} to="/add-event">
+              Add new Event
+            </Nav.Link>
+            
           </Nav>
         </Navbar.Collapse>
       </Container>

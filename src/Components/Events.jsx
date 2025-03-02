@@ -1,19 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { Alert, Row, Col } from 'react-bootstrap';
 import Event from './Event';
-import eventsData from '../events.json';
+import { getallEvents, deleteEvent } from '../services/api';
 
 const Events = () => {
-  const [events, setEvents] = useState(eventsData);
+  const [events, setEvents] = useState([]);
   const [showWelcome, setShowWelcome] = useState(false);
 
   useEffect(() => {
-    setShowWelcome(true);
-    const timer = setTimeout(() => {
-      setShowWelcome(false);
-    }, 3000);
-    return () => clearTimeout(timer);
+      const fetchEvents = async () => {
+          const data = await getallEvents();
+          setEvents(data);
+      };
+      fetchEvents();
   }, []);
+
 
   const handleBook = (eventName) => {
     setEvents((prevEvents) =>
@@ -39,7 +40,14 @@ const Events = () => {
       )
     );
   };
-
+  const handleDeleteEvent = async (id) => {
+    try {
+        await deleteEvent(id); // Appel à l'API pour supprimer l'événement
+        setEvents((prevEvents) => prevEvents.filter(event => event.id !== id)); // Mettre à jour l'état
+    } catch (error) {
+        console.error("Error deleting event:", error);
+    }
+};
   return (
     <div>
       {showWelcome && (
@@ -50,7 +58,7 @@ const Events = () => {
       <Row>
         {events.map((event) => (
           <Col key={event.name} md={4}>
-            <Event event={event} onBook={handleBook} onLike={handleLike} />
+            <Event event={event} onBook={handleBook} onLike={handleLike} onDelete={handleDeleteEvent}/>
           </Col>
         ))}
       </Row>
